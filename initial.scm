@@ -1,9 +1,8 @@
-#lang R5RS
-; /Applications/Racket\ v6.3/bin/racket -i -l xrepl -l racket/base
+; racket -i -l xrepl -l racket/base
 
 (load "j-bob/scheme/j-bob-lang.scm")
 
-; The axioms of Cons (initial)
+; The axioms of Cons
 ; A theorem is an expression that is always true.
 ; Axioms are theorems that are assumed to be true, whereas theorems must be shown to be true.
 
@@ -15,6 +14,9 @@
 
 (dethm cdr/cons (x y)
        (equal (cdr (cons x y)) y))
+
+(dethm cons/car+cdr (x)
+       (if (atom x) 't (equal (cons (car x) (cdr x)) x)))
 
 ; The axioms of Equal (initial)
 (dethm equal-same (x)
@@ -32,4 +34,15 @@
 ; The result, bodye, can be used to rewrite a focus p to become q provided
 ; bodye is either (equal p q) or (equal q p).
 
+; The axioms of If (final)
+(dethm if-true (x y)
+       (equal (if 't x y) x))
 
+(dethm if-false (x y)
+       (equal (if 'nil x y) y))
+
+(dethm if-nest-A (x y z)
+       (if x (equal (if x y z) y) 't))
+
+(dethm if-nest-E (x y z)
+       (if x 't (equal (if x y z) z)))
